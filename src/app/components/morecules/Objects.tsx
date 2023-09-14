@@ -2,6 +2,7 @@ import { Floor } from "../atoms/Floor";
 import {
   RigidBody,
   RapierRigidBody,
+  CuboidCollider,
 } from "@react-three/rapier";
 import { Ball } from "../atoms/Ball";
 import { RefObject, useRef } from "react";
@@ -11,6 +12,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
   const { viewport } = useThree();
   const rigidRef = useRef<RapierRigidBody>(null);
+  // MEMO: Better to use local variable instead of passing ref as a props.
   // const ballRef = useRef<RapierRigidBody>(null);
   useFrame((state) => {
     if (rigidRef.current) {
@@ -48,6 +50,16 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
     }
   });
 
+  const onCollisionEnter = () => {
+    if (props.ballRef.current) {
+      return (
+        props.ballRef.current.setTranslation({ x: 0, y: 5, z: 0 }, true),
+        props.ballRef.current.setLinvel({ x: 0, y: 10, z: 0 }, true)
+      );
+    }
+    return;
+  };
+
   return (
     <>
       <RigidBody ref={props.ballRef} position={[0, 5, 0]} colliders="ball">
@@ -63,6 +75,15 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
         friction={2}
       >
         <Floor />
+      </RigidBody>
+      <RigidBody
+        type="fixed"
+        colliders={false}
+        position={[0, -viewport.height, 0]}
+        restitution={2.1}
+        onCollisionEnter={onCollisionEnter}
+      >
+        <CuboidCollider args={[viewport.width, 2, viewport.width]} />
       </RigidBody>
     </>
   );

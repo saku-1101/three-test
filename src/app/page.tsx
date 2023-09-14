@@ -8,7 +8,7 @@ export default function Home() {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={() => {
           if (ballRef.current) {
             ballRef.current.setTranslation({ x: 0, y: 5, z: 0 }, true);
@@ -18,7 +18,7 @@ export default function Home() {
         style={{ padding: "0.5rem", margin: "0.5rem" }}
       >
         Reset
-      </button>
+      </button> */}
       <PlayGround ballRef={ballRef} />
     </>
   );
