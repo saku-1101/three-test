@@ -3,7 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import { Suspense, useRef } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -13,11 +13,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const windowHeight = window.innerHeight;
-  const windowWidth = window.innerWidth;
+  const [cameraParams, setCameraParams] = useState({
+    windowHeight: 0,
+    windowWidth: 0,
+  });
+  useEffect(() => {
+    setCameraParams({
+      windowHeight: innerHeight,
+      windowWidth: innerWidth,
+    });
+  }, []);
   const distance = 800;
-  const FOV = (2 * Math.atan(windowHeight / (2 * distance)) * 180) / Math.PI;
-
+  const FOV =
+    (2 * Math.atan(cameraParams.windowHeight / (2 * distance)) * 180) / Math.PI;
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -26,7 +34,7 @@ export default function RootLayout({
           camera={{
             position: [10, 1, 10],
             fov: FOV,
-            aspect: windowWidth / innerHeight,
+            aspect: cameraParams.windowWidth / cameraParams.windowHeight,
           }}
           style={{ width: "100vw", height: "100vh" }}
         >
