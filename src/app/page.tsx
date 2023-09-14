@@ -1,21 +1,19 @@
-'use client'
-import { Box, Torus } from "@react-three/drei";
-import { Box as CustomBox } from "./components/Box";
-import { Canvas } from "@react-three/fiber";
-import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
-import { Suspense } from "react";
+"use client";
+import { Floor } from "./components/Floor";
+import { RigidBody } from "@react-three/rapier";
+import { Ball } from "./components/Ball";
 
 export default function Home() {
   return (
-    <Canvas>
-      <Suspense>
-        <Physics debug>
-          <RigidBody colliders={"hull"} restitution={2}>
-            <CustomBox />
-          </RigidBody>
-          <CuboidCollider position={[0, -2, 0]} args={[20, 0.5, 20]} />
-        </Physics>
-      </Suspense>
-    </Canvas>
+    <>
+      <RigidBody position={[0, 5, 0]} colliders="ball">
+        <Ball />
+      </RigidBody>
+      <RigidBody type="fixed" position={[0, 0, 0]} restitution={2}>
+        {/* <RigidBody /> component is used to add a mesh into the physics world. Automatically generate Colliders based on the shape of the wrapped meshes */}
+        {/* when we first run, the object inside will fall down because the gravity affects to it. */}
+        <Floor />
+      </RigidBody>
+    </>
   );
-};
+}
