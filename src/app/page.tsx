@@ -1,14 +1,21 @@
 'use client'
-import { Canvas } from '@react-three/fiber'
-import { Box } from './components/Box'
+import { Box, Torus } from "@react-three/drei";
+import { Box as CustomBox } from "./components/Box";
+import { Canvas } from "@react-three/fiber";
+import { Physics, RigidBody, CuboidCollider } from "@react-three/rapier";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
     <Canvas>
-    <ambientLight />
-    <pointLight position={[10, 10, 10]} />
-    <Box position={[-1.2, 0, 0]} />
-    <Box position={[1.2, 0, 0]} />
-  </Canvas>
-  )
-}
+      <Suspense>
+        <Physics debug>
+          <RigidBody colliders={"hull"} restitution={2}>
+            <CustomBox />
+          </RigidBody>
+          <CuboidCollider position={[0, -2, 0]} args={[20, 0.5, 20]} />
+        </Physics>
+      </Suspense>
+    </Canvas>
+  );
+};
