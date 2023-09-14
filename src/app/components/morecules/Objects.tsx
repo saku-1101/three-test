@@ -1,12 +1,17 @@
 import { Floor } from "../atoms/Floor";
-import { RigidBody, RapierRigidBody } from "@react-three/rapier";
+import {
+  RigidBody,
+  RapierRigidBody,
+} from "@react-three/rapier";
 import { Ball } from "../atoms/Ball";
-import { useRef } from "react";
+import { RefObject, useRef } from "react";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
-export const Objects = () => {
+export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
+  const { viewport } = useThree();
   const rigidRef = useRef<RapierRigidBody>(null);
+  // const ballRef = useRef<RapierRigidBody>(null);
   useFrame((state) => {
     if (rigidRef.current) {
       rigidRef.current.rotation().x = THREE.MathUtils.lerp(
@@ -42,9 +47,10 @@ export const Objects = () => {
       return;
     }
   });
+
   return (
     <>
-      <RigidBody position={[0, 5, 0]} colliders="ball">
+      <RigidBody ref={props.ballRef} position={[0, 5, 0]} colliders="ball">
         <Ball />
       </RigidBody>
       {/* <RigidBody /> component is used to add a mesh into the physics world. Automatically generate Colliders based on the shape of the wrapped meshes */}

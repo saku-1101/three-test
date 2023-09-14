@@ -4,8 +4,10 @@ import { Physics } from "@react-three/rapier";
 import { Suspense, useState, useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
 import { Objects } from "../morecules/Objects";
+import { RapierRigidBody } from "@react-three/rapier";
+import { RefObject } from "react";
 
-export const PlayGround = () => {
+export const PlayGround = (props: { ballRef: RefObject<RapierRigidBody> }) => {
   const [cameraParams, setCameraParams] = useState({
     windowHeight: 0,
     windowWidth: 0,
@@ -34,7 +36,7 @@ export const PlayGround = () => {
       <pointLight position={[0, 0, 0]} />
       {/* Control the movement of the camera with mouse interaction */}
       <OrbitControls attach="orbitControls" />
-      <color attach="background" args={["white"]} />
+      {/* <color attach="background" args={["white"]} /> */}
       {/* To make sure all the required engines are loaded before te calculation */}
       <Suspense>
         {/* the root component of your physics world. Needs to be wrapped in <Suspense /> */}
@@ -45,7 +47,7 @@ export const PlayGround = () => {
           maxVelocityFrictionIterations={2}
           gravity={[0, -40, 0]}
         >
-          <Objects />
+          <Objects ballRef={props.ballRef} />
         </Physics>
       </Suspense>
     </Canvas>
