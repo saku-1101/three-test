@@ -53,8 +53,9 @@ export default function Home() {
       <RigidBody
         ref={rigidRef}
         type="kinematicVelocity"
-        position={[0, 0, 0]}
+        position={[0, -10, 0]}
         restitution={2}
+        friction={2}
       >
         <Floor />
       </RigidBody>

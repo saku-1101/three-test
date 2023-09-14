@@ -6,6 +6,7 @@ export function Ball() {
   return (
     <Sphere
       args={[1]}
+      rotation={[-Math.PI / 2, 0, 0]}
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
     >
