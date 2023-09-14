@@ -3,7 +3,8 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
+import { OrbitControls } from "@react-three/drei";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,14 +13,27 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const windowHeight = window.innerHeight;
+  const windowWidth = window.innerWidth;
+  const distance = 800;
+  const FOV = (2 * Math.atan(windowHeight / (2 * distance)) * 180) / Math.PI;
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Canvas shadows style={{ width: "100vw", height: "100vh" }}>
+        <Canvas
+          shadows
+          camera={{
+            position: [10, 1, 10],
+            fov: FOV,
+            aspect: windowWidth / innerHeight,
+          }}
+          style={{ width: "100vw", height: "100vh" }}
+        >
           <ambientLight />
           <pointLight position={[0, 0, 0]} />
           {/* Control the movement of the camera with mouse interaction */}
-          {/* <OrbitControls attach="orbitControls" /> */}
+          <OrbitControls attach="orbitControls" />
           <color attach="background" args={["white"]} />
           {/* To make sure all the required engines are loaded before te calculation */}
           <Suspense>
