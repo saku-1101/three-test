@@ -2,7 +2,7 @@ import { Floor } from "../atoms/Floor";
 import {
   RigidBody,
   RapierRigidBody,
-  CuboidCollider,
+  // CuboidCollider,
 } from "@react-three/rapier";
 import { Ball } from "../atoms/Ball";
 import { RefObject, useRef } from "react";
@@ -76,7 +76,7 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
       >
         <Floor />
       </RigidBody>
-      <RigidBody
+      {/* <RigidBody
         type="fixed"
         colliders={false}
         position={[0, -viewport.height, 0]}
@@ -84,7 +84,7 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
         onCollisionEnter={onCollisionEnter}
       >
         <CuboidCollider args={[viewport.width, 2, viewport.width]} />
-      </RigidBody>
+      </RigidBody> */}
     </>
   );
 };
