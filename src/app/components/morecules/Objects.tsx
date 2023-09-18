@@ -1,4 +1,5 @@
 import { Floor } from "../atoms/Floor";
+import { Board } from "../atoms/Board";
 import {
   RigidBody,
   RapierRigidBody,
@@ -81,18 +82,51 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
 
   return (
     <>
-      <RigidBody ref={props.ballRef} position={[0, 5, 0]} colliders="ball">
+      <RigidBody
+        ref={props.ballRef}
+        position={[0, 5, 0]}
+        colliders="ball"
+        name="Ball"
+        onCollisionEnter={({ manifold, target, other }) => {
+          console.log(
+            "Collision at world position ",
+            manifold.solverContactPoint(0)
+          );
+
+          if (other.rigidBodyObject && target.rigidBodyObject) {
+            console.log(
+              // this rigid body's Object3D
+              target.rigidBodyObject.name,
+              " collided with ",
+              // the other rigid body's Object3D
+              other.rigidBodyObject.name
+            );
+          }
+        }}
+      >
         <Ball />
       </RigidBody>
       {/* <RigidBody /> component is used to add a mesh into the physics world. Automatically generate Colliders based on the shape of the wrapped meshes */}
       {/* when we first run, the object inside will fall down because the gravity affects to it. */}
+
+      <RigidBody
+        ref={rigidRef}
+        type="kinematicVelocity"
+        position={[0, 0, 10]}
+        restitution={2}
+        colliders={"cuboid"}
+        name="Board"
+      >
+        <Board />
+      </RigidBody>
+
       <RigidBody
         ref={rigidRef}
         type="kinematicVelocity"
         position={[0, -10, 0]}
         restitution={2}
-        // friction={2}
         colliders={"cuboid"}
+        name="Floor"
       >
         <Floor />
       </RigidBody>

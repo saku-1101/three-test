@@ -26,7 +26,7 @@ export const PlayGround = (props: { ballRef: RefObject<RapierRigidBody> }) => {
     <Canvas
       shadows
       camera={{
-        position: [0, 5, 12],
+        position: [12, 5, 0],
         fov: FOV,
         aspect: cameraParams.windowWidth / cameraParams.windowHeight,
       }}
