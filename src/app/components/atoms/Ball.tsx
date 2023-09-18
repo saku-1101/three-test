@@ -10,7 +10,10 @@ export function Ball() {
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
     >
-      <meshStandardMaterial color={hovered ? "orange" : "springgreen"} />
+      <meshStandardMaterial
+        color={hovered ? "orange" : "springgreen"}
+        roughness={0}
+      />
     </Sphere>
   );
 }
