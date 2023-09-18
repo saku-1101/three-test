@@ -26,7 +26,7 @@ export const PlayGround = (props: { ballRef: RefObject<RapierRigidBody> }) => {
     <Canvas
       shadows
       camera={{
-        position: [10, 1, 10],
+        position: [0, 5, 12],
         fov: FOV,
         aspect: cameraParams.windowWidth / cameraParams.windowHeight,
       }}
@@ -35,7 +35,7 @@ export const PlayGround = (props: { ballRef: RefObject<RapierRigidBody> }) => {
       <ambientLight />
       <pointLight position={[0, 0, 0]} />
       {/* Control the movement of the camera with mouse interaction */}
-      <OrbitControls attach="orbitControls" />
+      {/* <OrbitControls attach="orbitControls" /> */}
       {/* <color attach="background" args={["white"]} /> */}
       {/* To make sure all the required engines are loaded before te calculation */}
       <Suspense>
