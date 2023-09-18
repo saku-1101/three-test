@@ -42,10 +42,16 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
       6. The lerp function returns a new value, which is assigned to the rotation variable. */
 
       // ジャイロセンサーより3軸方向を取得し，移動させる
+      // 移動距離
+      const xTranslation = state.mouse.x * Math.sqrt(5 * 5 + 12 * 12);
+      const yTranslation = state.mouse.y * 5;
+      const zTranslation = Math.sqrt(
+        xTranslation * xTranslation + yTranslation * yTranslation
+      );
       rigidRef.current.setTranslation(
         {
-          x: state.mouse.x * Math.sqrt(5 * 5 + 12 * 12), // because the camera is away Math.sqrt(5 * 5 + 12 * 12) from the object
-          y: state.mouse.y * 5, // because the camera is away 5 from the object
+          x: xTranslation, // because the camera is away Math.sqrt(5 * 5 + 12 * 12) from the object
+          y: yTranslation, // because the camera is away 5 from the object
           z: 0,
         },
         true
@@ -59,12 +65,6 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
         rigidRef.current.translation().z
       );
       // 二次元上でのex
-      // 移動距離
-      const xTranslation = state.mouse.x * Math.sqrt(5 * 5 + 12 * 12);
-      const yTranslation = state.mouse.y * 5;
-      const zTranslation = Math.sqrt(
-        xTranslation * xTranslation + yTranslation * yTranslation
-      );
       const vTo = new THREE.Vector3(
         rigidRef.current.translation().x + xTranslation,
         rigidRef.current.translation().y + yTranslation,
@@ -87,10 +87,23 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
         position={[0, 5, 0]}
         colliders="ball"
         name="Ball"
+      >
+        <Ball />
+      </RigidBody>
+      {/* <RigidBody /> component is used to add a mesh into the physics world. Automatically generate Colliders based on the shape of the wrapped meshes */}
+      {/* when we first run, the object inside will fall down because the gravity affects to it. */}
+
+      <RigidBody
+        ref={rigidRef}
+        type="kinematicVelocity"
+        position={[0, 0, -10]}
+        restitution={2}
+        colliders={"cuboid"}
+        name="Board"
         onCollisionEnter={({ manifold, target, other }) => {
           console.log(
             "Collision at world position ",
-            manifold.solverContactPoint(0)
+            manifold.solverContactPoint(0) // collided point
           );
 
           if (other.rigidBodyObject && target.rigidBodyObject) {
@@ -103,19 +116,6 @@ export const Objects = (props: { ballRef: RefObject<RapierRigidBody> }) => {
             );
           }
         }}
-      >
-        <Ball />
-      </RigidBody>
-      {/* <RigidBody /> component is used to add a mesh into the physics world. Automatically generate Colliders based on the shape of the wrapped meshes */}
-      {/* when we first run, the object inside will fall down because the gravity affects to it. */}
-
-      <RigidBody
-        ref={rigidRef}
-        type="kinematicVelocity"
-        position={[0, 0, 10]}
-        restitution={2}
-        colliders={"cuboid"}
-        name="Board"
       >
         <Board />
       </RigidBody>

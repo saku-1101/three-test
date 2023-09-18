@@ -35,7 +35,7 @@ export const PlayGround = (props: { ballRef: RefObject<RapierRigidBody> }) => {
       <ambientLight />
       <pointLight position={[0, 0, 0]} />
       {/* Control the movement of the camera with mouse interaction */}
-      {/* <OrbitControls attach="orbitControls" /> */}
+      <OrbitControls attach="orbitControls" />
       {/* <color attach="background" args={["white"]} /> */}
       {/* To make sure all the required engines are loaded before te calculation */}
       <Suspense>
