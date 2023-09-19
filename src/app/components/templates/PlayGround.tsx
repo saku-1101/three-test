@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useState, useEffect } from "react";
 import { OrbitControls } from "@react-three/drei";
-import { Objects } from "../morecules/Objects";
+import { Objects } from "../organisms/Objects";
 import { RapierRigidBody } from "@react-three/rapier";
 import { RefObject } from "react";
 
